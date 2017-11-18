@@ -9,6 +9,8 @@ public class Ventana extends JFrame{
     private JPanel panelHistoria, panelImagen;
 
     private Humano humano;
+    private Ayudante ayudante;
+    private Mapa mapa;
     //private ImageIcon imagen1, imagen2;
 
 
@@ -52,15 +54,26 @@ public class Ventana extends JFrame{
     }
 
     public void onStart(){
+    	mapa = new Mapa();
+    	mapa.crearCasillasDefault();
+    	mapa.crearCasillasA();
+    	mapa.crearCasillasB();
+
         humano = new Humano(0, "oliver", 20, 20);
-        System.out.println("La posicion del humano es " + humano.getPos());
+
+        ayudante = new Ayudante();
+        ayudante.contarHistoria(humano);
+        //System.out.println(ayudante.contarHistoria(humano));
     }
 
 
     public class ListenerCambiar implements ActionListener{
         public void actionPerformed(ActionEvent event){
             humano.setPos(humano.getPos() + 1);
-            System.out.println("La posicion del humano es" + humano.getPos() );
+			System.out.println("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
+
+			ayudante.contarHistoria(humano);
+            //System.out.println("La posicion del humano es " + humano.getPos());
         }
     }
 }

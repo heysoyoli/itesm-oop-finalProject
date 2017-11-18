@@ -3,13 +3,16 @@ public class Ayudante{
 	private String historia;
 	//private String explicacion;
 
+	public Ayudante(){}
 
-	public String contarHistoria(Humano humano){
+
+	public void contarHistoria(Humano humano){
 		int pos = humano.getPos();
+		historia = "<html>";
 
 		switch (pos){
 			case 0:
-				historia = "Hola, me llamo Andres soy tu guia espiritual. No me subestimes. Espero poder ayudarte en este camino del aprendizaje. Sin embargo, no puedo pelear tus batallas.";
+				historia = "Hola, me llamo Andres soy tu guia espiritual. No me subestimes. Espero poder ayudarte en este camino del aprendizaje. Sin embargo, no puedo pelear tus batallas." + "<br/>";
 				break;
 			case 1:
 				historia = "Has encontrado esto en tu mochila... La respuesta cuando llegues al lugar en donde todo este despejado";
@@ -19,7 +22,6 @@ public class Ayudante{
 				break;
 			case 3:
 				historia = "Toma esto, te servira mas tarde, guardalo en tu mochila. Solo puedes tener hasta 4 objetos dentro de ella. El arma que has encontrado te ayudara a enfrentarte a los espiritus. danio que puedes hacer con esta arma es de 5 puntos por ataque. No podras usar tu arma mas de dos veces, usala sabiamente. Confia en tu conocimiento. Te enfrentaras a retos que reten tu intelecto.";
-
 				break;
 			case 15:
 				historia = "Has llegado hasta aqui sin problema. Necesitaras mas poder para derrotar a los siguientes enemigos. Acabas de adquirir la habilidad de correccion de errores.";	
@@ -35,12 +37,13 @@ public class Ayudante{
 				break;
 
 			default:
-				historia = "No hay nada aqui";
+				historia = historia + "</html>";
 				break;
 		}
 
-		System.out.println( pos + " " + historia );
-		return historia;
+		System.out.println(historia);
+
+	
 	}
 
 }

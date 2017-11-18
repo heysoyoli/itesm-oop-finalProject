@@ -4,6 +4,7 @@ public class Casilla{
   protected Arma arma;
   protected Enemigo enemigo;
   protected String historia;
+  //protected boolean tipoEnemigo;
 //  protected int numero;
 
 
@@ -23,6 +24,15 @@ public Casilla(Enemigo enemigo){
     this.arma = arma;
   }
 
+
+
+  public void setHistoria(String historia){
+    this.historia = historia;
+  }
+
+  public String getHistoria(){
+    return historia;
+  }
 
   public void setItem(Item item){
     this.item = item;
