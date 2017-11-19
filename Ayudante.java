@@ -37,13 +37,21 @@ public class Ayudante{
 				break;
 
 			default:
-				historia = historia + "</html>";
+				historia = historia;
 				break;
 		}
 
 		System.out.println(historia);
 
 	
+	}
+
+	public void explicarContenido(Casilla casilla){
+		if(casilla.getTipoEnemigo() == 1){
+			System.out.println("Derrota al enemigo!");
+		}else if(casilla.getTipoEnemigo() == 0){
+			System.out.println("Encontraste un nuevo item :)");
+		}
 	}
 
 }

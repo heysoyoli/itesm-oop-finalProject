@@ -5,7 +5,7 @@ import java.awt.*;
 public class Ventana extends JFrame{
 
     private JLabel historiaTitle, historia, imagenDisplay1, imagenDisplay2;
-    private JButton changeHistoria;
+    private JButton changeHistoria, atacar;
     private JPanel panelHistoria, panelImagen;
 
     private Humano humano;
@@ -50,6 +50,10 @@ public class Ventana extends JFrame{
         changeHistoria.addActionListener(new ListenerCambiar());
         panelHistoria.add(changeHistoria);
 
+        atacar = new JButton("Atacar");
+        atacar.addActionListener(new ListenerAtacar());
+        panelHistoria.add(atacar);
+
         onStart();
     }
 
@@ -73,7 +77,14 @@ public class Ventana extends JFrame{
 			System.out.println("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
 
 			ayudante.contarHistoria(humano);
+            ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
             //System.out.println("La posicion del humano es " + humano.getPos());
+        }
+    }
+
+    public class ListenerAtacar implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            System.out.println("El Humano ataco al enemigo");
         }
     }
 }

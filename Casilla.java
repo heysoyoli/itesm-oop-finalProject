@@ -4,7 +4,7 @@ public class Casilla{
   protected Arma arma;
   protected Enemigo enemigo;
   protected String historia;
-  //protected boolean tipoEnemigo;
+  protected int tipoContenido;  //protected boolean tipoEnemigo;
 //  protected int numero;
 
 
@@ -12,12 +12,14 @@ public Casilla(String historia){
   this.historia = historia;
 }
 
-public Casilla(Enemigo enemigo){
+public Casilla(Enemigo enemigo, int tipoContenido){
     this.enemigo = enemigo;
+    this.tipoContenido = 1;
   }
 
-  public Casilla(Item item){
+  public Casilla(Item item, int tipoContenido){
     this.item = item;
+    this.tipoContenido = 0;
   }
 
   public Casilla(Arma arma){
@@ -56,6 +58,14 @@ public Casilla(Enemigo enemigo){
 
   public Enemigo getEnemigo(){
     return enemigo;
+  }
+
+  public void setTipoEnemigo(int tipoContenido){
+    this.tipoContenido = tipoContenido;
+  }
+
+  public int getTipoEnemigo(){
+    return tipoContenido;
   }
 
 }
