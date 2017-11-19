@@ -8,7 +8,6 @@ public class Ayudante{
 
 	public void contarHistoria(Humano humano){
 		int pos = humano.getPos();
-		historia = "<html>";
 
 		switch (pos){
 			case 0:
@@ -47,9 +46,9 @@ public class Ayudante{
 	}
 
 	public void explicarContenido(Casilla casilla){
-		if(casilla.getTipoEnemigo() == 1){
+		if(casilla.getTipoContenido() == 1){
 			System.out.println("Derrota al enemigo!");
-		}else if(casilla.getTipoEnemigo() == 0){
+		}else if(casilla.getTipoContenido() == 0){
 			System.out.println("Encontraste un nuevo item :)");
 		}
 	}

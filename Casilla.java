@@ -60,11 +60,11 @@ public Casilla(Enemigo enemigo, int tipoContenido){
     return enemigo;
   }
 
-  public void setTipoEnemigo(int tipoContenido){
+  public void setTipoContenido(int tipoContenido){
     this.tipoContenido = tipoContenido;
   }
 
-  public int getTipoEnemigo(){
+  public int getTipoContenido(){
     return tipoContenido;
   }
 

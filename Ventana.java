@@ -5,7 +5,7 @@ import java.awt.*;
 public class Ventana extends JFrame{
 
     private JLabel historiaTitle, historia, imagenDisplay1, imagenDisplay2;
-    private JButton changeHistoria, atacar;
+    private JButton cambiarHistoria, atacar;
     private JPanel panelHistoria, panelImagen;
 
     private Humano humano;
@@ -46,9 +46,9 @@ public class Ventana extends JFrame{
         historia = new JLabel();
         panelHistoria.add(historia);
 
-        changeHistoria = new JButton("Cambiar Historia");
-        changeHistoria.addActionListener(new ListenerCambiar());
-        panelHistoria.add(changeHistoria);
+        cambiarHistoria = new JButton("Cambiar Historia");
+        cambiarHistoria.addActionListener(new ListenerCambiar());
+        panelHistoria.add(cambiarHistoria);
 
         atacar = new JButton("Atacar");
         atacar.addActionListener(new ListenerAtacar());
@@ -63,10 +63,12 @@ public class Ventana extends JFrame{
     	mapa.crearCasillasA();
     	mapa.crearCasillasB();
 
-        humano = new Humano(0, "oliver", 20, 20);
+        humano = new Humano(0, "oliver", 20, 5);
 
         ayudante = new Ayudante();
         ayudante.contarHistoria(humano);
+
+        atacar.setEnabled(false);
         //System.out.println(ayudante.contarHistoria(humano));
     }
 
@@ -78,13 +80,43 @@ public class Ventana extends JFrame{
 
 			ayudante.contarHistoria(humano);
             ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
+
+            if(mapa.getCasillas()[humano.getPos()].getTipoContenido() == 1){
+                atacar.setEnabled(true);
+                cambiarHistoria.setEnabled(false);
+            }else{
+                atacar.setEnabled(false);
+                cambiarHistoria.setEnabled(true);
+            }
             //System.out.println("La posicion del humano es " + humano.getPos());
         }
     }
 
     public class ListenerAtacar implements ActionListener{
         public void actionPerformed(ActionEvent event){
-            System.out.println("El Humano ataco al enemigo");
+
+            int vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+            int vidaHumano = humano.getVida();
+            int ataqueHumano = humano.getPuntosAtaque();
+            int ataqueEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getPuntosAtaque();
+
+            System.out.println(vidaEnemigo);
+            System.out.println(ataqueEnemigo);
+            mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - ataqueHumano);
+            vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+            System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+
+
+            if(vidaEnemigo > 0){
+                System.out.println("El enemigo sigue vivo, te atacara ahora");
+                vidaHumano = vidaHumano - ataqueEnemigo;
+                System.out.println("Tu vida ahora es de:" + vidaHumano);
+            }else if(vidaEnemigo <= 0){ 
+                System.out.println("Derrotaste el enemigo! Puedes continuar con tu viaje");
+                cambiarHistoria.setEnabled(true);
+                atacar.setEnabled(false);
+            }
+            //System.out.println("El Humano ataco al enemigo");
         }
     }
 }
