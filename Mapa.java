@@ -1,7 +1,7 @@
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Mapa{
-	
+
 	private Casilla[] casillas;
 	//private Humano humano;
 
@@ -33,14 +33,14 @@ public class Mapa{
 	}
 
 	public void crearCasillasA(){
-	
+
     for(int i = 4; i <= 15;i++){
       int x = ThreadLocalRandom.current().nextInt(0, 1 + 1);
       int y = ThreadLocalRandom.current().nextInt(10, 20 + 1);
       int z = ThreadLocalRandom.current().nextInt(5, 7 + 1);
 
       int a = ThreadLocalRandom.current().nextInt(1, 5 + 1);
-      
+
 
       if(x == 1){
          casillas[i] = new Casilla(new Item(a, "Pocion de curacion", "Esta pocion te dara puntos extra de vida"), 0);

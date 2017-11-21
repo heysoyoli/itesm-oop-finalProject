@@ -26,7 +26,7 @@ public class Ventana extends JFrame{
         initComponents();
 
         setSize(800, 400);
-        
+
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -61,7 +61,7 @@ public class Ventana extends JFrame{
         atacar.addActionListener(new ListenerAtacar());
         panelHistoria.add(atacar);
 
-    
+
         guardarSlot1 = new JRadioButton("Guardar en slot 1", false);
         guardarSlot2 = new JRadioButton("Guardar en slot 2", false);
         grupoGuardar = new ButtonGroup();
@@ -138,7 +138,7 @@ public class Ventana extends JFrame{
                 guardarSlot1.setEnabled(true);
                 guardarSlot2.setEnabled(true);
                 atacar.setEnabled(false);
-                cambiarHistoria.setEnabled(true);
+                cambiarHistoria.setEnabled(false);
             }else{
                 guardarItem.setEnabled(false);
                 guardarArma.setEnabled(false);
@@ -182,7 +182,7 @@ public class Ventana extends JFrame{
             }
 
 
-            
+
                     /*mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - ataqueHumano);
                     vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
                     System.out.println("La vida del enemigo es de: " + vidaEnemigo);*/
@@ -193,7 +193,7 @@ public class Ventana extends JFrame{
                 System.out.println("El enemigo sigue vivo, te atacara ahora");
                 humano.setVida(vidaHumano - ataqueEnemigo);
                 System.out.println("Tu vida ahora es de:" + humano.getVida());
-            }else if(vidaEnemigo <= 0){ 
+            }else if(vidaEnemigo <= 0){
                 System.out.println("Derrotaste el enemigo! Puedes continuar con tu viaje");
                 cambiarHistoria.setEnabled(true);
                 atacar.setEnabled(false);
@@ -206,7 +206,7 @@ public class Ventana extends JFrame{
             }
 
 
-           
+
             //System.out.println("El Humano ataco al enemigo");
         }
     }
@@ -222,7 +222,7 @@ public class Ventana extends JFrame{
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 1);
                 guardarItem.setEnabled(false);
                 System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
-            }   
+            }
         }
     }
 
