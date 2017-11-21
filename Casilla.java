@@ -22,8 +22,9 @@ public Casilla(Enemigo enemigo, int tipoContenido){
     this.tipoContenido = 0;
   }
 
-  public Casilla(Arma arma){
+  public Casilla(Arma arma, int tipoContenido){
     this.arma = arma;
+    this.tipoContenido = tipoContenido;
   }
 
 

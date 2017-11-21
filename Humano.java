@@ -15,4 +15,8 @@ public class Humano extends Personaje{
 		return pos;
 	}
 
+	public void atacar(){
+		
+	}
+
 }
