@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
+////FALTA ATACAR CON ARMA, ATACAR CON HABILIDAD, MOSTAR IMAGENES, ATACAR SOLO
+
 public class Ventana extends JFrame{
 
     private JLabel historiaTitle, historia, imagenDisplay1, imagenDisplay2;
@@ -159,9 +161,32 @@ public class Ventana extends JFrame{
 
             //System.out.println(vidaEnemigo);
             //System.out.println(ataqueEnemigo);
-            mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - ataqueHumano);
-            vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
-            System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+
+
+            if(guardarSlot1.isSelected()){
+                if(mochila.getArmas()[0] != null){
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[0].getGainPuntosAtaque()));
+                    vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+                    System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+                }else{
+                    System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
+                }
+            }else if(guardarSlot2.isSelected()){
+                if(mochila.getArmas()[1] != null){
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[1].getGainPuntosAtaque()));
+                    vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+                    System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+                }else{
+                    System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
+                }
+            }
+
+
+            
+                    /*mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - ataqueHumano);
+                    vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+                    System.out.println("La vida del enemigo es de: " + vidaEnemigo);*/
+
 
 
             if(vidaEnemigo > 0){
@@ -179,6 +204,8 @@ public class Ventana extends JFrame{
                 System.exit(0);
 
             }
+
+
            
             //System.out.println("El Humano ataco al enemigo");
         }
@@ -195,13 +222,9 @@ public class Ventana extends JFrame{
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 1);
                 guardarItem.setEnabled(false);
                 System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
-            }
-            
-
-            
+            }   
         }
     }
-
 
     public class ListenerGuardarArma implements ActionListener{
         public void actionPerformed(ActionEvent event){
@@ -215,7 +238,6 @@ public class Ventana extends JFrame{
                 guardarArma.setEnabled(false);
                 System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 2");
             }
-
         }
     }
 
@@ -242,4 +264,6 @@ public class Ventana extends JFrame{
             }
         }
     }
+
+
 }

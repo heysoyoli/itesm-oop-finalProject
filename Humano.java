@@ -16,7 +16,11 @@ public class Humano extends Personaje{
 	}
 
 	public void atacar(){
-		
+
+	}
+
+	public void atacarArma(){
+		 
 	}
 
 }
