@@ -4,7 +4,7 @@ public class Personaje{
 	protected int vida;
 	protected int puntosAtaque;
 	//private ImageIcon mostrarImagen;
-	
+
 	public Personaje(String nombre, int vida, int puntosAtaque){
 		this.nombre = nombre;
 		this.vida = vida;
@@ -33,6 +33,12 @@ public class Personaje{
 
 	public int getPuntosAtaque(){
 		return puntosAtaque;
+	}
+
+	public void atacarArma(Arma arma, Enemigo enemigo){
+
+		
+
 	}
 
 }
