@@ -16,11 +16,11 @@ public class Mochila{
 		return armas;
 	}
 
-	public void guardarItem(Item item){
-		items[0] = item;
+	public void guardarItem(Item item, int index){
+		items[index] = item;
 	}
 
-	public void guardarArma(Arma arma){
-		armas[0] = arma;
+	public void guardarArma(Arma arma, int index){
+		armas[index] = arma;
 	}
 }

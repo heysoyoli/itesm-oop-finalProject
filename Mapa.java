@@ -6,7 +6,7 @@ public class Mapa{
 	//private Humano humano;
 
 	public Mapa(){
-		this.casillas = new Casilla[25];
+		this.casillas = new Casilla[26];
 		//this.humano = humano;
 	}
 
@@ -28,7 +28,7 @@ public class Mapa{
 	    casillas[1]= new Casilla("Esta es la casilla que contendra al ayudante y la nota"); //clase?
 	    casillas[2] = new Casilla(new Item(1, "Una pocion!", "Estas a punto de entrar al infierno, esta pocion te ayudara a aguantar sus llamas."),0);
 	    casillas[3]= new Casilla(new Arma("Espada", "Te ayudara a derrotar a tus enemigos", 5), 2);
-	    casillas[15] = new Casilla(new Item(10, "Pocion, nivel B", "Los retos que vienen seran mas dificiles, esto te ayudara a superarlos."),0);
+	    casillas[15] = new Casilla(new Arma("Martillo", "Los retos que vienen seran mas dificiles, esto te ayudara a superarlos.", 7),2);
 	    casillas[24] = new Casilla(new Monolito("Andres, el monolito", 30, 10), 1);
 	}
 
