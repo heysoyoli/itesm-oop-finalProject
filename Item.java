@@ -3,10 +3,9 @@ public class Item extends Objeto{
     protected int upPuntosVida;
     protected int upPtsExp;
 
-    public Item(int upPuntosVida, int upPtsExp, String nombre, String explicacion){
+    public Item(int upPuntosVida, String nombre, String explicacion){
       super(nombre, explicacion);
       this.upPuntosVida = upPuntosVida;
-      this.upPtsExp = upPtsExp;
     }
 
     public void setUpPuntosVida (int upPuntosVida){

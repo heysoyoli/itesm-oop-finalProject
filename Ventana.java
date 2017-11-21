@@ -54,6 +54,11 @@ public class Ventana extends JFrame{
         atacar.addActionListener(new ListenerAtacar());
         panelHistoria.add(atacar);
 
+        
+
+        atacar.setEnabled(false);
+        cambiarHistoria.setEnabled(false);
+
         onStart();
     }
 
@@ -68,7 +73,7 @@ public class Ventana extends JFrame{
         ayudante = new Ayudante();
         ayudante.contarHistoria(humano);
 
-        atacar.setEnabled(false);
+
         //System.out.println(ayudante.contarHistoria(humano));
     }
 
@@ -117,6 +122,12 @@ public class Ventana extends JFrame{
                 atacar.setEnabled(false);
             }
             //System.out.println("El Humano ataco al enemigo");
+        }
+    }
+
+    public class ListenerGuardarItem implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            
         }
     }
 }
