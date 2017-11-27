@@ -6,7 +6,7 @@ public class Ayudante{
 	public Ayudante(){}
 
 
-	public void contarHistoria(int posicion){
+	public String contarHistoria(int posicion){
 
 		switch (posicion){
 			case 0:
@@ -39,7 +39,7 @@ public class Ayudante{
 				break;
 		}
 
-		System.out.println(historia);
+		return historia;
 
 	
 	}
