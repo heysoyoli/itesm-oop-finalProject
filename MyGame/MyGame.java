@@ -59,7 +59,7 @@ public class MyGame extends JFrame{
 		scrollP.add(panelTexto);
 		//panelTexto.setBorder(titleTexto);
 		
-		panelPrincipal.add(panelHistoria,cPrincipal);
+		panelPrincipal.add(panelTexto,cPrincipal);
 		cPrincipal= new GridBagConstraints();
 		cPrincipal.fill= GridBagConstraints.BOTH;
 		cPrincipal.weighty=100;
@@ -192,7 +192,7 @@ public class MyGame extends JFrame{
 		public void contarHistoria(){
 			String historia= "<html>";
 			for(int i=0;i<100; i++){
-				historia=historia+"Te cuento esta historia por"+i+"vez."+"<br/>";
+				historia=historia+ ayudante.contarHistoria(humano.getPos()) +"<br/>";
 			}
 			historia=historia+"<html>";
 			historiaLabel.setText(historia);

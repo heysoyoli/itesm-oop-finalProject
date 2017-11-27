@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class PanelHistoria extends JPanel{
  	public PanelHistoria(){
- 		setBackground(Color.green);
+ 		setBackground(Color.black);
  	}
 	
 }

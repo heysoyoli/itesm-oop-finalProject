@@ -44,12 +44,16 @@ public class Ayudante{
 	
 	}
 
-	public void explicarContenido(Casilla casilla){
+	public String explicarContenido(Casilla casilla){
 		if(casilla.getTipoContenido() == 1){
-			System.out.println("Derrota al enemigo!");
+			String derrotaEnemigo = "Derrota al enemigo!";
+			return derrotaEnemigo;
 		}else if(casilla.getTipoContenido() == 0){
-			System.out.println("Encontraste un nuevo item :)");
+			String encontrasteItem = "Encontraste un nuevo item.";
+			return encontrasteItem;
 		}
+
+		else return " ";
 	}
 
 }
