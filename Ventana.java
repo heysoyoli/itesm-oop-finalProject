@@ -11,7 +11,7 @@ public class Ventana extends JFrame{
 
     //PANELES y SCROLL
     private JPanel panelPrincipal,panelInfo,panelTexto,panelAccion, panelImagenItem, 
-    panelItems,panelImagenArma,panelArmas,panelRespuestas, panelStats, panelImagenMochila, panelHistoria;
+    panelItems,panelImagenArma,panelArmas,panelRespuestas, panelStats, panelImagenMochila, panelHistoria, panelScroll;
     private JScrollPane scrollP;
 
     //LABELS Y BOTONES
@@ -75,32 +75,38 @@ public class Ventana extends JFrame{
         GridBagConstraints cPrincipal= new GridBagConstraints();
         cPrincipal.fill= GridBagConstraints.BOTH;
         cPrincipal.weighty=100;
-        cPrincipal.weightx=40;
+        cPrincipal.weightx=45;
         cPrincipal.gridx= 0;
         cPrincipal.gridy=0;
 
+
+        panelScroll = new JPanel();
+        panelScroll.setLayout(new GridLayout(1,1));
         scrollP= new JScrollPane();
-        panelTexto= new PanelTexto(); 
+        panelTexto= new PanelTexto();
+        panelTexto.setLayout(new GridLayout(1,1));
         historiaLabel= new JLabel();
+        historiaLabel.setForeground(Color.white);
 
         scrollP.setViewportView(panelTexto);
         scrollP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+       
+        panelTexto.add(historiaLabel);  
+        panelScroll.add(scrollP);
+        panelPrincipal.add(panelScroll, cPrincipal);
 
-        scrollP.add(panelTexto);
-        panelTexto.add(historiaLabel);
-        
-        panelPrincipal.add(panelTexto, cPrincipal);
-
+    
         
         //MAIN PANEL - THIS WILL CONTAIN THE HISTORY PANEL AND THE IMAGES PANEL
         cPrincipal= new GridBagConstraints();
         cPrincipal.fill= GridBagConstraints.BOTH;
         cPrincipal.weighty=100;
-        cPrincipal.weightx=70;
+        cPrincipal.weightx=55;
         cPrincipal.gridx= 1;
         cPrincipal.gridy=0;
         panelAccion= new PanelAccion();
+        panelAccion.setLayout(new GridLayout(1,1));
         TitledBorder titleAccion = BorderFactory.createTitledBorder("Mapa");
         panelAccion.setBorder(titleAccion);
         panelPrincipal.add(panelAccion, cPrincipal);
@@ -118,6 +124,8 @@ public class Ventana extends JFrame{
         c.weighty=30;
         c.weightx=100;
 
+        //CREATES ALL LOWER PANELS
+
         //FATHER PANEL
         panelInfo= new PanelInfo();
         panelInfo.setLayout(new GridBagLayout());
@@ -133,6 +141,7 @@ public class Ventana extends JFrame{
 
         //MOCHILA
         panelImagenMochila = new PanelImagenMochila();
+        panelImagenMochila.setLayout(new GridLayout(1,1));
         TitledBorder titleMochila = BorderFactory.createTitledBorder("Tu mochila");
         panelImagenMochila.setBorder(titleMochila);
         
@@ -145,6 +154,7 @@ public class Ventana extends JFrame{
         panelItems.setBorder(titleItems);
 
         panelImagenItem= new PanelImagenItem();
+        panelImagenItem.setLayout(new GridLayout(1,1));
         TitledBorder titleImagenItems = BorderFactory.createTitledBorder("Item seleccionado");
         panelImagenItem.setBorder(titleImagenItems);
         
@@ -157,6 +167,7 @@ public class Ventana extends JFrame{
         panelArmas.setBorder(titleArmas);
         
         panelImagenArma= new PanelImagenArma();
+        panelImagenArma.setLayout(new GridLayout(1,1));
         TitledBorder titleImagenArma = BorderFactory.createTitledBorder("Arma seleccionada");
         panelImagenArma.setBorder(titleImagenArma);
         
@@ -299,8 +310,8 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ITEMS
-        //imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
-        //panelImagenItem.add(imagenItemLabel);
+        imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
+        panelImagenItem.add(imagenItemLabel);
 
 
         //GRUPO PARA GUARDAR ARMAS

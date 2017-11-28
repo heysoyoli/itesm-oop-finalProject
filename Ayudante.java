@@ -10,7 +10,7 @@ public class Ayudante{
 
 		switch (posicion){
 			case 0:
-				historia = "Hola, me llamo Andres soy tu guia espiritual. No me subestimes. Espero poder ayudarte en este camino del aprendizaje. Sin embargo, no puedo pelear tus batallas." + "\n";
+				historia = "Hola, me llamo Andres soy tu guia espiritual.\n No me subestimes. Espero poder ayudarte en este camino del aprendizaje.\n Sin embargo, no puedo pelear tus batallas. \n";
 				break;
 			case 1:
 				historia = "Has encontrado esto en tu mochila... La respuesta cuando llegues al lugar en donde todo este despejado\n";
