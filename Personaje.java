@@ -1,4 +1,4 @@
-public class Personaje{
+public abstract class Personaje{
 
 	protected String nombre;
 	protected int vida;

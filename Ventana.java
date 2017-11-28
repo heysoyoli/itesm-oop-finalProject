@@ -22,7 +22,7 @@ public class Ventana extends JFrame{
     private ButtonGroup grupoGuardar, grupoGuardar2, grupoRespuestas;
 
     //IMAGENES
-    private ImageIcon diamante;
+    //private ImageIcon diamante;
     private ImageIcon backgroundBosque, backgroundInfierno;
 
     //INSTANCIAS NECESARIAS PARA INICIAR
@@ -266,7 +266,7 @@ public class Ventana extends JFrame{
 
         respuestaA = new JRadioButton("Respuesta A");
         respuestaB = new JRadioButton("Respuesta B"); 
-        respuestaC = new JRadioButton("Respuesta c");
+        respuestaC = new JRadioButton("Respuesta C");
         grupoRespuestas = new ButtonGroup();
         grupoRespuestas.add(respuestaA);
         grupoRespuestas.add(respuestaB);
@@ -290,8 +290,8 @@ public class Ventana extends JFrame{
        
         //GRUPO PARA GUARDAR ITEMS
         //BOTONES PARA GUARDAR ITEMS Y USAR ITEMS
-        guardarSlot1 = new JRadioButton("Guardar Item Aqui", false);
-        guardarSlot2 = new JRadioButton("Guardar Item Aqui", false);
+        guardarSlot1 = new JRadioButton("Espacio Vacio");
+        guardarSlot2 = new JRadioButton("Espacio Vacio");
         grupoGuardar = new ButtonGroup();
         grupoGuardar.add(guardarSlot1);
         grupoGuardar.add(guardarSlot2);
@@ -316,21 +316,23 @@ public class Ventana extends JFrame{
 
         //GRUPO PARA GUARDAR ARMAS
         //BOTONES PARA GUARDAR ARMAS Y USAR ARMAS
-        guardarSlot3 = new JRadioButton("Guardar Arma Aqui", false);
-        guardarSlot4 = new JRadioButton("Guardar Arma Aqui", false);
+        guardarSlot3 = new JRadioButton("Espacio Vacio");
+        guardarSlot4 = new JRadioButton("Espacio Vacio");
         grupoGuardar2 = new ButtonGroup();
         grupoGuardar2.add(guardarSlot3);
         grupoGuardar2.add(guardarSlot4);
         panelArmas.add(guardarSlot3);
         panelArmas.add(guardarSlot4);
 
+        guardarArma = new JButton("Guardar Arma");
+        guardarArma.addActionListener( new ListenerGuardarArma());
+        panelArmas.add(guardarArma);
+
         atacar = new JButton("Atacar");
         atacar.addActionListener(new ListenerAtacar());
         panelArmas.add(atacar);
 
-        guardarArma = new JButton("Guardar Arma");
-        guardarArma.addActionListener( new ListenerGuardarArma());
-        panelArmas.add(guardarArma);
+        
 
 
         //IMAGEN DE ARMAS
@@ -354,18 +356,24 @@ public class Ventana extends JFrame{
 
 
         //ESTADOS INICIALES DE LOS BOTONES
+        respuestaA.setEnabled(false);
+        respuestaB.setEnabled(false);
+        respuestaC.setEnabled(false);
+        atacarRespuesta.setEnabled(false);
         cambiarHistoria.setEnabled(true);
 
+        guardarSlot1.setEnabled(false);
+        guardarSlot2.setEnabled(false);
+        guardarItem.setEnabled(false);
+        usarItem.setEnabled(false);
 
         guardarSlot3.setEnabled(false);
         guardarSlot4.setEnabled(false);
         guardarArma.setEnabled(false);
         atacar.setEnabled(false);
+
+        guardarJuego.setEnabled(false);
        
-        guardarSlot1.setEnabled(false);
-        guardarSlot2.setEnabled(false);
-        guardarItem.setEnabled(false);
-        usarItem.setEnabled(false);
 
         //INIZIALIZAR EL JUEGO
         onStart();
@@ -426,21 +434,7 @@ public class Ventana extends JFrame{
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //STATES FOR BUTTONS
 
-            cambiarHistoria.setEnabled(true);
-
-            guardarSlot1.setEnabled(false);
-            guardarSlot2.setEnabled(false);
-            guardarItem.setEnabled(false);
-            usarItem.setEnabled(false);
-
-            guardarSlot3.setEnabled(false);
-            guardarSlot4.setEnabled(false);
-            guardarArma.setEnabled(false);
-            atacar.setEnabled(false);
-
-            guardarJuego.setEnabled(true);
-
-
+            
             switch(mapa.getCasillas()[humano.getPos()].getTipoContenido()){
                 case 0:
                     guardarSlot1.setEnabled(true);
@@ -458,12 +452,12 @@ public class Ventana extends JFrame{
                     usarItem.setEnabled(true);
 
 
-                    x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+                    /*x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
 
                     System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
                     System.out.println(preguntas.getPreguntas()[x].getA());
                     System.out.println(preguntas.getPreguntas()[x].getB());
-                    System.out.println(preguntas.getPreguntas()[x].getC());
+                    System.out.println(preguntas.getPreguntas()[x].getC());*/
                 break;
 
                 case 2:
@@ -476,6 +470,20 @@ public class Ventana extends JFrame{
                 break;
 
                 default:
+
+                    cambiarHistoria.setEnabled(true);
+
+                    guardarSlot1.setEnabled(false);
+                    guardarSlot2.setEnabled(false);
+                    guardarItem.setEnabled(false);
+                    usarItem.setEnabled(false);
+
+                    guardarSlot3.setEnabled(false);
+                    guardarSlot4.setEnabled(false);
+                    guardarArma.setEnabled(false);
+                    atacar.setEnabled(false);
+
+                    guardarJuego.setEnabled(true);
 
                 break;
 
@@ -668,6 +676,11 @@ public class Ventana extends JFrame{
             
             historiaLabel.setText(mapa.getHistoria());
     }
+
+
+//GUARDAR, RESIZE IMAGEN ACCION, AGREGAR FANTASMAS, CAMBIAR FONDO A B, PONER IMAGEN CASTILLO Y PNG HOMBRE/MUJER, INSTRUCCION RECOGER ITEM
+//DISABLE BUTTONS, AGREGAR PREGUNTA DIFICIL, VOLVER A INTENTAR, CAMBIAR PREGUNTAS, FINISH CONCATENATE TEXT, EXCEPCIONES.
+
 
 
 
