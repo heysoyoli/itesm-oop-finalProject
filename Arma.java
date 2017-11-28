@@ -1,4 +1,6 @@
-public class Arma extends Objeto{
+import java.io.*;
+
+public class Arma extends Objeto implements Serializable{
 
   //protected int expMinima;
   protected int gainPuntosAtaque;

@@ -1,4 +1,6 @@
-public class Casilla{
+import java.io.*;
+
+ class Casilla implements Serializable{
 
   protected Item item;
   protected Arma arma;

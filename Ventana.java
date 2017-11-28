@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.border.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.io.*;
 
 
 public class Ventana extends JFrame{
@@ -17,13 +18,14 @@ public class Ventana extends JFrame{
     //LABELS Y BOTONES
     private JLabel historiaTitle, historia, statVida, statPos, statAtaque, statVidaEnemigo, imagenMochila, 
     historiaLabel, backgroundLabel, imagenArmaLabel, imagenItemLabel;
-    private JButton cambiarHistoria, atacar, guardarItem, guardarArma, usarItem, atacarRespuesta,  guardarJuego;
+    private JButton cambiarHistoria, atacar, guardarItem, guardarArma, usarItem, atacarRespuesta,  guardarJuego, cargarJuego;
     private JRadioButton guardarSlot1, guardarSlot2, guardarSlot3, guardarSlot4, respuestaA, respuestaB, respuestaC;
     private ButtonGroup grupoGuardar, grupoGuardar2, grupoRespuestas;
 
     //IMAGENES
     //private ImageIcon diamante;
     private ImageIcon backgroundBosque, backgroundInfierno;
+    private JFileChooser fc;
 
     //INSTANCIAS NECESARIAS PARA INICIAR
     private Humano humano;
@@ -31,6 +33,7 @@ public class Ventana extends JFrame{
     private Mapa mapa;
     private Mochila mochila;
     private PoolPreguntas preguntas;
+    private Game game;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,6 +56,8 @@ public class Ventana extends JFrame{
         panelImagen = new JPanel();
         add(panelHistoria);
         add(panelImagen);*/
+        fc = new JFileChooser();
+
 
         ////CONSTRAINTS FOR PERCENTAGES
         //THIS CREATES THE CONSTRAINTS FOR THE WHOLE UPPER PART OF THE DISPLAY
@@ -175,7 +180,7 @@ public class Ventana extends JFrame{
         //STATS
         panelStats= new PanelStats();
         //panelStats.add(new JLabel ("Stats"));
-        panelStats.setLayout(new GridLayout(5, 1));
+        panelStats.setLayout(new GridLayout(6, 1));
         TitledBorder titleStats = BorderFactory.createTitledBorder("Stats");
         panelStats.setBorder(titleStats);
         
@@ -354,6 +359,10 @@ public class Ventana extends JFrame{
         guardarJuego.addActionListener( new ListenerGuardarJuego());
         panelStats.add(guardarJuego);
 
+        cargarJuego = new JButton("Cargar Juego");
+        cargarJuego.addActionListener (new ListenerCargarJuego());
+        panelStats.add(cargarJuego);
+
 
         //ESTADOS INICIALES DE LOS BOTONES
         respuestaA.setEnabled(false);
@@ -383,6 +392,9 @@ public class Ventana extends JFrame{
 
     //INICIALIZA LAS INSTANCIAS NECESARIAS Y COMIENZA EL JUEGO
     public void onStart(){
+
+        game = new Game();
+
     	mapa = new Mapa();
     	mapa.crearCasillasDefault();
     	mapa.crearCasillasA();
@@ -392,14 +404,17 @@ public class Ventana extends JFrame{
         preguntas = new PoolPreguntas();
         preguntas.crearPreguntas();
 
-        backgroundInfierno = new ImageIcon("images/background/defaultAlone.jpg");
+        backgroundInfierno = new ImageIcon("images/background/bosque.png");
         backgroundLabel.setIcon(backgroundInfierno);
 
-        humano = new Humano(0, "oliver", 30, 5);
+        humano = new Humano(0, "oliver", 20, 5);
         mochila = new Mochila();
         ayudante = new Ayudante();
 
         historiaLabel.setText(ayudante.contarHistoria(humano.getPos()));
+
+        game.setHumano(humano);
+        game.setMapa(mapa);
     }
 
 
@@ -409,6 +424,13 @@ public class Ventana extends JFrame{
 
             //SETS POSITION WITHIN THE MAP
             humano.setPos(humano.getPos() + 1);
+
+            game.setHumano(humano);
+            game.setMapa(mapa);
+
+            if(humano.getPos() == 26){
+                System.exit(0);
+            }
 
             //DISPLAYS BACKGROUND
             displayBackground(humano.getPos());
@@ -449,6 +471,7 @@ public class Ventana extends JFrame{
                     respuestaB.setEnabled(true);
                     respuestaC.setEnabled(true);
                     atacarRespuesta.setEnabled(true);
+                    cambiarHistoria.setEnabled(false);
 
                     statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
 
@@ -459,10 +482,19 @@ public class Ventana extends JFrame{
                     String hist = mapa.getHistoria();
                     mapa.setHistoria(hist +  "<br/>" + preguntas.getPreguntas()[x].getPregunta() + "<br/>" + preguntas.getPreguntas()[x].getA() + "<br/>" + preguntas.getPreguntas()[x].getB() + "<br/>" + preguntas.getPreguntas()[x].getC() + "<br/>" );
 
+
+                    if(humano.getPos() <15){
+                    backgroundInfierno = new ImageIcon("images/background/defaultFantasma.jpg");
+                    backgroundLabel.setIcon(backgroundInfierno);
+                    }else if(humano.getPos() == 24){
+                    backgroundInfierno = new ImageIcon("images/background/final.jpg");
+                    backgroundLabel.setIcon(backgroundInfierno);
+                    }else{
+                    backgroundInfierno = new ImageIcon("images/background/castilloFantasma.jpg");
+                    backgroundLabel.setIcon(backgroundInfierno);
+                    }
+
                     historiaLabel.setText(mapa.getHistoria());
-
-                    
-
 
                 break;
 
@@ -683,6 +715,8 @@ public class Ventana extends JFrame{
                 humano.setVida(vidaHumano - ataqueEnemigo);
                 statVida.setText("Tu vida es de " + humano.getVida());
 
+                cambiarHistoria.setEnabled(false);
+
 
             }else if(vidaEnemigo <= 0){
 
@@ -706,18 +740,43 @@ public class Ventana extends JFrame{
                 historiaLabel.setText("GAME OVER");
             }
 
-    }
-
-            
-
-            
+    }      
 
 
     //METODO PARA GUARDAR JUEGO
     public class ListenerGuardarJuego implements ActionListener{
         public void actionPerformed (ActionEvent event){
-            System.out.println("Guardaste el juego");
-            System.exit(1);
+            try{
+
+                FileOutputStream fout = new FileOutputStream("partida.rpg");
+                ObjectOutputStream oos = new ObjectOutputStream(fout);
+                oos.writeObject(game);
+                oos.close();
+
+            }catch(FileNotFoundException e){
+                System.out.println("No existe el archivo");
+            }catch(IOException exception){
+                System.out.println("Ocurrio IO exception");
+            }
+        }
+    }
+
+    public class ListenerCargarJuego implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            int fileChooserResponse = fc.showOpenDialog(null);
+            if(fileChooserResponse == JFileChooser.APPROVE_OPTION){
+                try{
+                    File file = fc.getSelectedFile();
+                    FileInputStream fis = new FileInputStream(file);
+                    ObjectInputStream ios = new ObjectInputStream(fis);
+                    game = (Game) ios.readObject();
+                }catch(IOException e){
+                    System.out.println("Ocurrio un IO exception");   
+                }catch(ClassNotFoundException e){
+                    System.out.println("NO se encontro la clase");
+                }
+                //SET GAME
+            }
         }
     }
 
@@ -770,6 +829,11 @@ public class Ventana extends JFrame{
     //HANDLES BACKGROUND IMAGES
     public void displayBackground(int posicion){
         switch(posicion){
+            case 0:
+                backgroundInfierno = new ImageIcon("images/background/bosque.png");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
             case 1:
                 backgroundInfierno = new ImageIcon("images/background/carta.png");
                 backgroundLabel.setIcon(backgroundInfierno);
@@ -780,7 +844,7 @@ public class Ventana extends JFrame{
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 
-            case 16:
+              case 16:
                 backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
@@ -821,12 +885,12 @@ public class Ventana extends JFrame{
             break;
 
             case 24:
-                backgroundInfierno = new ImageIcon("images/backgorund/final.jpg");
+                backgroundInfierno = new ImageIcon("images/background/final.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 
             case 25:
-                backgroundInfierno = new ImageIcon("images/backgorund/cielo.jpg");
+                backgroundInfierno = new ImageIcon("images/background/cielo.png");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 

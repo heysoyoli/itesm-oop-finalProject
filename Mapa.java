@@ -1,6 +1,7 @@
 import java.util.concurrent.ThreadLocalRandom;
+import java.io.*;
 
-public class Mapa{
+public class Mapa implements Serializable{
 
 	private Casilla[] casillas;
 	private String historia;
@@ -27,13 +28,14 @@ public class Mapa{
 	    casillas[1]= new Casilla("Esta es la casilla que contendra al ayudante y la nota", 3); //clase?
 	    casillas[2] = new Casilla("Pocion", 3);
 	    casillas[3]= new Casilla(new Arma("Espada", "Te ayudara a derrotar a tus enemigos", 5), 2);
-	    casillas[15] = new Casilla(new Arma("Martillo", "Los retos que vienen seran mas dificiles, esto te ayudara a superarlos.", 7),2);
-	    casillas[24] = new Casilla(new Monolito("Andres, el monolito", 30, 10), 1);	
+	    casillas[14] = new Casilla(new Arma("Martillo", "Los retos que vienen seran mas dificiles, esto te ayudara a superarlos.", 7),2);
+	    casillas[24] = new Casilla(new Monolito("Andres, el monolito", 30, 10), 1);
+	    casillas[25] = new Casilla ("Este es el fin de la historia", 3);
 	}
 
 	public void crearCasillasA(){
 
-	    for(int i = 4; i <= 15;i++){
+	    for(int i = 4; i <= 13;i++){
 	      int x = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 	      int y = ThreadLocalRandom.current().nextInt(10, 20 + 1);
 	      int z = ThreadLocalRandom.current().nextInt(5, 7 + 1);
@@ -51,7 +53,7 @@ public class Mapa{
 
 
 	public void crearCasillasB(){
-	    for(int j = 16; j <= 23;j++){
+	    for(int j = 15; j <= 23;j++){
 	      int x = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 	      int y = ThreadLocalRandom.current().nextInt(10, 20 + 1);
 	      int z = ThreadLocalRandom.current().nextInt(5, 7 + 1);

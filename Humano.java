@@ -1,4 +1,6 @@
-public class Humano extends Personaje{
+import java.io.*;
+
+public class Humano extends Personaje implements Serializable{
 	
 	private int pos;
 

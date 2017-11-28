@@ -1,4 +1,6 @@
-public class Item extends Objeto{
+import java.io.*;
+
+public class Item extends Objeto implements Serializable{
 
     protected int upPuntosVida;
     protected int upPtsExp;
