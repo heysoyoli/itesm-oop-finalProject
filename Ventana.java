@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.border.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 ////FALTA ATACAR CON ARMA, ATACAR CON HABILIDAD, MOSTAR IMAGENES, ATACAR SOLO
 
@@ -13,7 +14,8 @@ public class Ventana extends JFrame{
     private JScrollPane scrollP;
 
     //LABELS Y BOTONES
-    private JLabel historiaTitle, historia, statVida, statPos, statAtaque, imagenMochila, historiaLabel, backgroundLabel;
+    private JLabel historiaTitle, historia, statVida, statPos, statAtaque, statVidaEnemigo, imagenMochila, 
+    historiaLabel, backgroundLabel, imagenArmaLabel, imagenItemLabel;
     private JButton cambiarHistoria, atacar, guardarItem, guardarArma, usarItem, guardarJuego;
     private JRadioButton guardarSlot1, guardarSlot2, guardarSlot3, guardarSlot4;
     private ButtonGroup grupoGuardar, grupoGuardar2;
@@ -27,6 +29,7 @@ public class Ventana extends JFrame{
     private Ayudante ayudante;
     private Mapa mapa;
     private Mochila mochila;
+    private PoolPreguntas preguntas;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,41 +54,45 @@ public class Ventana extends JFrame{
         add(panelImagen);*/
 
         ////CONSTRAINTS FOR PERCENTAGES
-        //THIS CREATES THE CONSTRAINTS FOR THE UPPER PART OF THE DISPLAY
+        //THIS CREATES THE CONSTRAINTS FOR THE WHOLE UPPER PART OF THE DISPLAY
         GridBagConstraints c= new GridBagConstraints();
         c.fill= GridBagConstraints.BOTH; 
         c.weighty=70;
         c.weightx=100;
         c.gridx=0;
         c.gridy=0;
+
         panelPrincipal= new PanelPrincipal();
         panelPrincipal.setLayout(new GridBagLayout());
 
 
-        //THIS CREATES THE CONSTRAINTS FOR THE 
-        GridBagConstraints cPrincipal= new GridBagConstraints();
-        cPrincipal.fill= GridBagConstraints.BOTH;
-        cPrincipal.weighty=100;
-        cPrincipal.weightx=30;
-        cPrincipal.gridx= 0;
-        cPrincipal.gridy=0;
-
+        //THIS CREATES THE CONSTRAINTS FOR THE SUBPANELS IN THE UPPER AREA
+ 
 
         //CREATING PANELS
         //PANEL TEXTO - DISPLAYS WHAT THE AYUDANTE SAYS
+        GridBagConstraints cPrincipal= new GridBagConstraints();
+        cPrincipal.fill= GridBagConstraints.BOTH;
+        cPrincipal.weighty=100;
+        cPrincipal.weightx=40;
+        cPrincipal.gridx= 0;
+        cPrincipal.gridy=0;
+
+        scrollP= new JScrollPane();
         panelTexto= new PanelTexto(); 
         historiaLabel= new JLabel();
-        scrollP= new JScrollPane();
 
         scrollP.setViewportView(panelTexto);
-        scrollP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        panelTexto.add(historiaLabel);
         scrollP.add(panelTexto);
+        panelTexto.add(historiaLabel);
+        
+        panelPrincipal.add(panelTexto, cPrincipal);
+
         
         //MAIN PANEL - THIS WILL CONTAIN THE HISTORY PANEL AND THE IMAGES PANEL
-        panelPrincipal.add(panelTexto,cPrincipal);
         cPrincipal= new GridBagConstraints();
         cPrincipal.fill= GridBagConstraints.BOTH;
         cPrincipal.weighty=100;
@@ -102,58 +109,65 @@ public class Ventana extends JFrame{
 
 
 
-
-        //PanelInfo
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //CONSTRAINTS FOR THE WHOLE LOWER PART
         c.fill= new GridBagConstraints().BOTH;
         c.gridx=0;
         c.gridy=1;
         c.weighty=30;
         c.weightx=100;
-        //
-        panelRespuestas= new PanelRespuestas();
-        //panelRespuestas.add(new JLabel ("panelRespuestas"));
-        TitledBorder titleRespuestas = BorderFactory.createTitledBorder("Respuestas");
-        panelRespuestas.setBorder(titleRespuestas);
-        //
+
+        //FATHER PANEL
         panelInfo= new PanelInfo();
         panelInfo.setLayout(new GridBagLayout());
         TitledBorder titleInfo = BorderFactory.createTitledBorder("");
         panelInfo.setBorder(titleInfo);
-        //
+
+        //RESPUESTAS
+        panelRespuestas= new PanelRespuestas();
+        TitledBorder titleRespuestas = BorderFactory.createTitledBorder("Respuestas");
+        panelRespuestas.setBorder(titleRespuestas);
+
+
+        //MOCHILA
+        panelImagenMochila = new PanelImagenMochila();
+        TitledBorder titleMochila = BorderFactory.createTitledBorder("Tu mochila");
+        panelImagenMochila.setBorder(titleMochila);
+        
+  
+        //ITEMS
         panelItems= new PanelItems();
         //panelItems.add(new JLabel ("Items"));
         TitledBorder titleItems = BorderFactory.createTitledBorder("Tus items");
         panelItems.setBorder(titleItems);
-        //
+
         panelImagenItem= new PanelImagenItem();
-        panelImagenItem.add(new JLabel ("ImagenItem"));
         TitledBorder titleImagenItems = BorderFactory.createTitledBorder("Item seleccionado");
         panelImagenItem.setBorder(titleImagenItems);
-        //
+        
+
+        //ARMAS
         panelArmas= new PanelArmas();
         //panelArmas.add(new JLabel ("Armas"));
         TitledBorder titleArmas = BorderFactory.createTitledBorder("Tus armas");
         panelArmas.setBorder(titleArmas);
         //
         panelImagenArma= new PanelImagenArma();
-        panelImagenArma.add(new JLabel ("Imagen Arma"));
         TitledBorder titleImagenArma = BorderFactory.createTitledBorder("Arma seleccionada");
         panelImagenArma.setBorder(titleImagenArma);
-        //
+        
+
+        //STATS
         panelStats= new PanelStats();
         //panelStats.add(new JLabel ("Stats"));
         TitledBorder titleStats = BorderFactory.createTitledBorder("Stats");
         panelStats.setBorder(titleStats);
         
-        //
-        panelImagenMochila = new PanelImagenMochila();
-        panelImagenMochila.add(new JLabel("Mochila"));
-        TitledBorder titleMochila = BorderFactory.createTitledBorder("Tu mochila");
-        panelImagenMochila.setBorder(titleMochila);
-        //panelImagenMochila.setSize(40,40);
         
-        //C info
-        //0
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        //ADDS ALL SUBPANLES AND SUBCONSTRAINTS TO PANEL INFO
+        //ADD RESPUESTAS
         GridBagConstraints cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -163,7 +177,7 @@ public class Ventana extends JFrame{
         panelInfo.add(panelRespuestas, cInfo);
         
         
-        //1
+        //ADD MOCHILA
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -172,7 +186,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0;
         panelInfo.add(panelImagenMochila, cInfo);
             
-        //2
+        //ADD ITEMS
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -181,7 +195,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0;
         panelInfo.add(panelItems, cInfo);
         
-        //3
+    
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -190,7 +204,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0; 
         panelInfo.add(panelImagenItem, cInfo);
         
-        //4
+        //ADD ARMAS
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -199,7 +213,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0;
         panelInfo.add(panelArmas, cInfo);
         
-        //5
+        
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -208,7 +222,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0;
         panelInfo.add(panelImagenArma, cInfo);
         
-        //6
+        //STATS
         cInfo= new GridBagConstraints();
         cInfo.fill= GridBagConstraints.BOTH;
         cInfo.weighty=100;
@@ -217,7 +231,7 @@ public class Ventana extends JFrame{
         cInfo.gridy=0;
         panelInfo.add(panelStats, cInfo);
         
-        //C principales
+        //ADDS PANEL INFO TO FRAME
         add(panelInfo,c);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +276,8 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ITEMS
+        imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
+        panelImagenItem.add(imagenItemLabel);
 
 
         //GRUPO PARA GUARDAR ARMAS
@@ -284,15 +300,19 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ARMAS
-
+        imagenArmaLabel = new JLabel(new ImageIcon("images/espada.png"));
+        panelImagenArma.add(imagenArmaLabel);
 
         //DISPLAY DE STATS DEL JUGADOR
         statVida = new JLabel("Vida");
         statPos =new JLabel("Posicion");
         statAtaque = new JLabel("Ataque");
+        statVidaEnemigo = new JLabel("Vida del Enemigo");
         panelStats.add(statVida);
         panelStats.add(statPos);
         panelStats.add(statAtaque);
+        //panelStats.add(statVidaEnemigo);
+
 
         guardarJuego = new JButton("Guardar Juego");
         guardarJuego.addActionListener( new ListenerGuardarJuego());
@@ -326,6 +346,9 @@ public class Ventana extends JFrame{
     	mapa.crearCasillasA();
     	mapa.crearCasillasB();
 
+        preguntas = new PoolPreguntas();
+        preguntas.crearPreguntas();
+
         backgroundInfierno = new ImageIcon("images/infierno-back-heroe.jpg");
         backgroundLabel.setIcon(backgroundInfierno);
 
@@ -340,56 +363,89 @@ public class Ventana extends JFrame{
     //METODO PARA AVANZAR DE CASILLA
     public class ListenerAvanzar implements ActionListener{
         public void actionPerformed(ActionEvent event){
+
+            //SETS POSITION WITHIN THE MAP
             humano.setPos(humano.getPos() + 1);
-			System.out.println("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
+
+
+            //TELLS STORY FOR THAT CASILLA OR CONTET
+			historiaLabel.setText("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
 
 			historiaLabel.setText(ayudante.contarHistoria(humano.getPos()));
 
             ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
 
-            usarItem.setEnabled(true);
 
+
+            //UPDATES STATS
             statPos.setText("Estas en la casilla: " + humano.getPos() + " de 25" );
             statVida.setText("Tu vida es de: " + humano.getVida());
             statAtaque.setText("Tu fuerza de ataque es de: " + humano.getPuntosAtaque());
 
-            //historiaLabel.setText("Esta es la casilla: " + humano.getPos());
-            contarHistoria();
+            //contarHistoria();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //STATES FOR BUTTONS
+
+            cambiarHistoria.setEnabled(true);
+
+            guardarSlot1.setEnabled(false);
+            guardarSlot2.setEnabled(false);
+            guardarItem.setEnabled(false);
+            usarItem.setEnabled(false);
+
+            guardarSlot3.setEnabled(false);
+            guardarSlot4.setEnabled(false);
+            guardarArma.setEnabled(false);
+            atacar.setEnabled(false);
+
+            guardarJuego.setEnabled(true);
 
 
+            switch(mapa.getCasillas()[humano.getPos()].getTipoContenido()){
+                case 0:
+                    guardarSlot1.setEnabled(true);
+                    guardarSlot2.setEnabled(true);
+                    guardarItem.setEnabled(true);
+                    usarItem.setEnabled(true);
+                break;
 
-            if(mapa.getCasillas()[humano.getPos()].getTipoContenido() == 1){
-                atacar.setEnabled(true);
-                guardarItem.setEnabled(false);
-                guardarArma.setEnabled(false);
-                guardarSlot1.setEnabled(false);
-                guardarSlot2.setEnabled(false);
-                cambiarHistoria.setEnabled(false);
-            }else if(mapa.getCasillas()[humano.getPos()].getTipoContenido() == 0){
-                guardarItem.setEnabled(true);
-                atacar.setEnabled(false);
-                guardarSlot1.setEnabled(true);
-                guardarSlot2.setEnabled(true);
-                guardarArma.setEnabled(false);
-                cambiarHistoria.setEnabled(true);
-            }else if(mapa.getCasillas()[humano.getPos()].getTipoContenido() == 2){
-                guardarItem.setEnabled(false);
-                guardarArma.setEnabled(true);
-                guardarSlot3.setEnabled(true);
-                guardarSlot4.setEnabled(true);
-                atacar.setEnabled(false);
-                cambiarHistoria.setEnabled(false);
-            }else{
-                guardarItem.setEnabled(false);
-                guardarArma.setEnabled(false);
-                guardarSlot1.setEnabled(false);
-                guardarSlot2.setEnabled(false);
-                atacar.setEnabled(false);
-                cambiarHistoria.setEnabled(true);
+                case 1:
+                    guardarSlot3.setEnabled(true);
+                    guardarSlot4.setEnabled(true);
+                    atacar.setEnabled(true);
+                    guardarSlot1.setEnabled(true);
+                    guardarSlot2.setEnabled(true);
+                    usarItem.setEnabled(true);
+
+
+                    int x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+
+                    System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
+                    System.out.println(preguntas.getPreguntas()[x].getA());
+                    System.out.println(preguntas.getPreguntas()[x].getB());
+                    System.out.println(preguntas.getPreguntas()[x].getC());
+                break;
+
+                case 2:
+
+                    guardarArma.setEnabled(true);
+                    guardarSlot3.setEnabled(true);
+                    guardarSlot4.setEnabled(true);
+                    cambiarHistoria.setEnabled(false);
+
+                break;
+
+                default:
+
+                break;
+
             }
-            //System.out.println("La posicion del humano es " + humano.getPos());
-        }
+
+
+       
     }
+}
 
   
     //METODOS PARA GUARDAR Y USAR ITEMS
@@ -399,7 +455,8 @@ public class Ventana extends JFrame{
                 if(mochila.getItems()[0] != null){
                     System.out.println("Usaste " + mochila.getItems()[0].getNombre() + " de tu mochila");
                     humano.setVida(humano.getVida() + mochila.getItems()[0].getUpPuntosVida());
-                    System.out.println("Tu vida ahora es de" + humano.getVida());
+                    historiaLabel.setText("Tu vida ahora es de" + humano.getVida());
+                    statVida.setText("Tu vida es de: " + humano.getVida());
                     mochila.getItems()[0] = null;
                 }else{
                     System.out.println("Este slot esta vacio");
@@ -408,10 +465,11 @@ public class Ventana extends JFrame{
                 if(mochila.getItems()[1] != null){
                     System.out.println("Usaste " + mochila.getItems()[1].getNombre() + " de tu mochila");
                     humano.setVida(humano.getVida() + mochila.getItems()[1].getUpPuntosVida());
-                    System.out.println("Tu vida ahora es de" + humano.getVida());
+                    historiaLabel.setText("Tu vida ahora es de" + humano.getVida());
+                    statVida.setText("Tu vida es de: " + humano.getVida());
                     mochila.getItems()[1] = null;
                 }else{
-                    System.out.println("Este slot esta vacio");
+                    historiaLabel.setText("Este slot esta vacio");
                 }
             }
         }
@@ -423,11 +481,11 @@ public class Ventana extends JFrame{
             if(guardarSlot1.isSelected()){
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(),0);
                 guardarItem.setEnabled(false);
-                System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
             }else if(guardarSlot2.isSelected()){
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 1);
                 guardarItem.setEnabled(false);
-                System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
             }
         }
     }
@@ -441,12 +499,12 @@ public class Ventana extends JFrame{
                 mochila.guardarArma(mapa.getCasillas()[humano.getPos()].getArma(), 0);
                 guardarArma.setEnabled(false);
                 cambiarHistoria.setEnabled(true);
-                System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 1");
+                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 1");
             }else if(guardarSlot4.isSelected()){
                 mochila.guardarArma(mapa.getCasillas()[humano.getPos()].getArma(), 1);
                 guardarArma.setEnabled(false);
                 cambiarHistoria.setEnabled(true);
-                System.out.println("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 2");
+                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 2");
             }
         }
     }
@@ -463,7 +521,8 @@ public class Ventana extends JFrame{
                 if(mochila.getArmas()[0] != null){
                     mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[0].getGainPuntosAtaque()));
                     vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
-                    System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+                    historiaLabel.setText("La vida del enemigo es de: " + vidaEnemigo);
+                    statVidaEnemigo.setText("Vida Enemigo: "+ vidaEnemigo);
                 }else{
                     System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
                 }
@@ -471,7 +530,8 @@ public class Ventana extends JFrame{
                 if(mochila.getArmas()[1] != null){
                     mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[1].getGainPuntosAtaque()));
                     vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
-                    System.out.println("La vida del enemigo es de: " + vidaEnemigo);
+                     historiaLabel.setText("La vida del enemigo es de: " + vidaEnemigo);
+                    statVidaEnemigo.setText("Vida Enemigo: "+ vidaEnemigo);
                 }else{
                     System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
                 }
@@ -479,18 +539,19 @@ public class Ventana extends JFrame{
 
 
             if(vidaEnemigo > 0){
-                System.out.println("El enemigo sigue vivo, te atacara ahora");
+                historiaLabel.setText("El enemigo sigue vivo, te atacara ahora");
                 humano.setVida(vidaHumano - ataqueEnemigo);
-                System.out.println("Tu vida ahora es de:" + humano.getVida());
+                historiaLabel.setText("Tu vida ahora es de:" + humano.getVida());
+                statVida.setText("Tu vida es de " + humano.getVida());
             }else if(vidaEnemigo <= 0){
-                System.out.println("Derrotaste el enemigo! Puedes continuar con tu viaje");
+                historiaLabel.setText("Derrotaste el enemigo! Puedes continuar con tu viaje");
                 cambiarHistoria.setEnabled(true);
                 atacar.setEnabled(false);
             }
 
             if(humano.getVida() <= 0 ){
-                System.out.println("GAME OVER");
-                System.exit(0);
+                historiaLabel.setText("GAME OVER");
+                //System.exit(0);
 
             }
         }
@@ -510,11 +571,20 @@ public class Ventana extends JFrame{
     public void contarHistoria(){
             String historia= "<html>";
 
-            historia=historia + ayudante.contarHistoria(humano.getPos()) + ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
+            historia=historia + ayudante.contarHistoria(humano.getPos()) + "\n" + ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
             
             historia=historia+"<html>";
             historiaLabel.setText(historia);
     }
+
+        public void contarHistoria2(){
+            String historia= "<html>";
+            for(int i=0;i<100; i++){
+                historia=historia+"Te cuento esta historia por"+i+"vez."+"<br>";
+            }
+            historia=historia+"<html>";
+            historiaLabel.setText(historia);
+        }
 
 
 }

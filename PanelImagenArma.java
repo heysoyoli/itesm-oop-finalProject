@@ -4,7 +4,7 @@ import java.awt.*;
 public class PanelImagenArma extends JPanel{
 
 	public PanelImagenArma(){
-		setBackground(Color.red);
+		setBackground(Color.white);
 	}
 	
 }

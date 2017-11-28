@@ -4,7 +4,7 @@ import java.awt.*;
 public class PanelAccion extends JPanel{
 
 	public PanelAccion(){
-		setBackground(Color.white);
+		setBackground(Color.black);
 	}
 
 
