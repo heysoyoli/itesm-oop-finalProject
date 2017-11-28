@@ -29,7 +29,7 @@ public class Mapa{
 	    casillas[2] = new Casilla(new Item(1, "Una pocion!", "Estas a punto de entrar al infierno, esta pocion te ayudara a aguantar sus llamas."),0);
 	    casillas[3]= new Casilla(new Arma("Espada", "Te ayudara a derrotar a tus enemigos", 5), 2);
 	    casillas[15] = new Casilla(new Arma("Martillo", "Los retos que vienen seran mas dificiles, esto te ayudara a superarlos.", 7),2);
-	    casillas[24] = new Casilla(new Monolito("Andres, el monolito", 30, 10), 1);
+	    casillas[24] = new Casilla(new Monolito("Andres, el monolito", 30, 10), 1);	
 	}
 
 	public void crearCasillasA(){

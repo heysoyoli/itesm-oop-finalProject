@@ -8,6 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Ventana extends JFrame{
 
+    private int x;
+
     //PANELES y SCROLL
     private JPanel panelPrincipal,panelInfo,panelTexto,panelAccion, panelImagenItem, 
     panelItems,panelImagenArma,panelArmas,panelRespuestas, panelStats, panelImagenMochila, panelHistoria;
@@ -16,9 +18,9 @@ public class Ventana extends JFrame{
     //LABELS Y BOTONES
     private JLabel historiaTitle, historia, statVida, statPos, statAtaque, statVidaEnemigo, imagenMochila, 
     historiaLabel, backgroundLabel, imagenArmaLabel, imagenItemLabel;
-    private JButton cambiarHistoria, atacar, guardarItem, guardarArma, usarItem, guardarJuego;
-    private JRadioButton guardarSlot1, guardarSlot2, guardarSlot3, guardarSlot4;
-    private ButtonGroup grupoGuardar, grupoGuardar2;
+    private JButton cambiarHistoria, atacar, guardarItem, guardarArma, usarItem, atacarRespuesta,  guardarJuego;
+    private JRadioButton guardarSlot1, guardarSlot2, guardarSlot3, guardarSlot4, respuestaA, respuestaB, respuestaC;
+    private ButtonGroup grupoGuardar, grupoGuardar2, grupoRespuestas;
 
     //IMAGENES
     private ImageIcon diamante;
@@ -247,6 +249,22 @@ public class Ventana extends JFrame{
         //RESPUESTAS - IMAGEN MOCHILA - ITEMS - ARMAS - STATS
 
         //AVANZAR Y CONTESTAR PREGUNTAS
+
+        respuestaA = new JRadioButton("Respuesta A");
+        respuestaB = new JRadioButton("Respuesta B"); 
+        respuestaC = new JRadioButton("Respuesta c");
+        grupoRespuestas = new ButtonGroup();
+        grupoRespuestas.add(respuestaA);
+        grupoRespuestas.add(respuestaB);
+        grupoRespuestas.add(respuestaC);
+        panelRespuestas.add(respuestaA);
+        panelRespuestas.add(respuestaB);
+        panelRespuestas.add(respuestaC);
+
+        atacarRespuesta = new JButton("Atacar con Respuesta");
+        atacarRespuesta.addActionListener(new ListenerAtacarRespuesta());
+        panelRespuestas.add(atacarRespuesta);
+
         cambiarHistoria = new JButton("Avanzar");
         cambiarHistoria.addActionListener(new ListenerAvanzar());
         panelRespuestas.add(cambiarHistoria);
@@ -265,6 +283,8 @@ public class Ventana extends JFrame{
         grupoGuardar.add(guardarSlot2);
         panelItems.add(guardarSlot1);
         panelItems.add(guardarSlot2);
+
+
 
         guardarItem = new JButton("Guardar Item");
         guardarItem.addActionListener( new ListenerGuardarItem());
@@ -367,6 +387,9 @@ public class Ventana extends JFrame{
             //SETS POSITION WITHIN THE MAP
             humano.setPos(humano.getPos() + 1);
 
+            //DISPLAYS BACKGROUND
+            displayBackground(humano.getPos());
+
 
             //TELLS STORY FOR THAT CASILLA OR CONTET
 			historiaLabel.setText("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
@@ -419,7 +442,7 @@ public class Ventana extends JFrame{
                     usarItem.setEnabled(true);
 
 
-                    int x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+                    x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
 
                     System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
                     System.out.println(preguntas.getPreguntas()[x].getA());
@@ -441,9 +464,6 @@ public class Ventana extends JFrame{
                 break;
 
             }
-
-
-       
     }
 }
 
@@ -564,6 +584,45 @@ public class Ventana extends JFrame{
             System.out.println("Guardaste el juego");
             System.exit(1);
         }
+    }
+
+    public class ListenerAtacarRespuesta implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+
+            int vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+
+            if(respuestaA.isSelected()){
+                if(preguntas.getPreguntas()[x].getA() == preguntas.getPreguntas()[x].getCorrecta()){
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - 10 );
+                }
+            }
+        }
+    }
+
+
+    public void displayBackground(int posicion){
+        switch(humano.getPos()){
+            case 2:
+                backgroundInfierno = new ImageIcon("images/carta.png");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 25:
+                backgroundInfierno = new ImageIcon("images/final.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 26:
+                backgroundInfierno = new ImageIcon("images/cielo.png");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            default:
+                backgroundInfierno = new ImageIcon("images/infierno-back-heroe.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+        }
+
     }
     
 

@@ -4,7 +4,8 @@ public class Casilla{
   protected Arma arma;
   protected Enemigo enemigo;
   protected String historia;
-  protected int tipoContenido;  //protected boolean tipoEnemigo;
+  protected int tipoContenido;
+ // protected ImageIcon imagen;  //protected boolean tipoEnemigo;
 //  protected int numero;
 
 
@@ -68,5 +69,13 @@ public Casilla(Enemigo enemigo, int tipoContenido){
   public int getTipoContenido(){
     return tipoContenido;
   }
+
+  /*public void setImagen(ImageIcon imagen){
+    this.imagen = imagen;
+  }
+
+  public ImageIcon getImagen(){
+    return imagen;
+  }*/
 
 }
