@@ -3,6 +3,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Mapa{
 
 	private Casilla[] casillas;
+	private String historia;
 	//private Humano humano;
 
 	public Mapa(){
@@ -21,6 +22,14 @@ public class Mapa{
 	public Humano getHumano(){
 		return humano;
 	}*/
+
+	public void setHistoria(String historia){
+		this.historia = historia;
+	}
+
+	public String getHistoria(){
+		return historia;
+	}
 
 
 	public void crearCasillasDefault(){

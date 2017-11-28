@@ -365,6 +365,7 @@ public class Ventana extends JFrame{
     	mapa.crearCasillasDefault();
     	mapa.crearCasillasA();
     	mapa.crearCasillasB();
+        mapa.setHistoria("<html>");
 
         preguntas = new PoolPreguntas();
         preguntas.crearPreguntas();
@@ -392,11 +393,12 @@ public class Ventana extends JFrame{
 
 
             //TELLS STORY FOR THAT CASILLA OR CONTET
-			historiaLabel.setText("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
+			//historiaLabel.setText("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
 
-			historiaLabel.setText(ayudante.contarHistoria(humano.getPos()));
+			//historiaLabel.setText(ayudante.contarHistoria(humano.getPos()));
 
-            ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
+            //ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
+            contarHistoria();
 
 
 
@@ -475,7 +477,11 @@ public class Ventana extends JFrame{
                 if(mochila.getItems()[0] != null){
                     System.out.println("Usaste " + mochila.getItems()[0].getNombre() + " de tu mochila");
                     humano.setVida(humano.getVida() + mochila.getItems()[0].getUpPuntosVida());
-                    historiaLabel.setText("Tu vida ahora es de" + humano.getVida());
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria("Tu vida ahora es de" + humano.getVida());
+                    historiaLabel.setText(mapa.getHistoria());
+
                     statVida.setText("Tu vida es de: " + humano.getVida());
                     mochila.getItems()[0] = null;
                 }else{
@@ -484,8 +490,13 @@ public class Ventana extends JFrame{
             }else if(guardarSlot2.isSelected()){
                 if(mochila.getItems()[1] != null){
                     System.out.println("Usaste " + mochila.getItems()[1].getNombre() + " de tu mochila");
+
                     humano.setVida(humano.getVida() + mochila.getItems()[1].getUpPuntosVida());
-                    historiaLabel.setText("Tu vida ahora es de" + humano.getVida());
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + hist +  "<br/>" + "Tu vida ahora es de" + humano.getVida());
+                    historiaLabel.setText(mapa.getHistoria());
+
                     statVida.setText("Tu vida es de: " + humano.getVida());
                     mochila.getItems()[1] = null;
                 }else{
@@ -501,11 +512,18 @@ public class Ventana extends JFrame{
             if(guardarSlot1.isSelected()){
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(),0);
                 guardarItem.setEnabled(false);
-                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                historiaLabel.setText(mapa.getHistoria());
+
             }else if(guardarSlot2.isSelected()){
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 1);
                 guardarItem.setEnabled(false);
-                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                historiaLabel.setText(mapa.getHistoria());
             }
         }
     }
@@ -600,8 +618,9 @@ public class Ventana extends JFrame{
     }
 
 
+    //HANDLES BACKGROUND IMAGES
     public void displayBackground(int posicion){
-        switch(humano.getPos()){
+        switch(posicion){
             case 2:
                 backgroundInfierno = new ImageIcon("images/carta.png");
                 backgroundLabel.setIcon(backgroundInfierno);
@@ -628,22 +647,13 @@ public class Ventana extends JFrame{
 
 
     public void contarHistoria(){
-            String historia= "<html>";
-
-            historia=historia + ayudante.contarHistoria(humano.getPos()) + "\n" + ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
+                
+            String hist = mapa.getHistoria();
+            mapa.setHistoria(hist +  "<br/>" + ayudante.contarHistoria(humano.getPos()) + "<br/>" + ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]) + "<br/>");
             
-            historia=historia+"<html>";
-            historiaLabel.setText(historia);
+            historiaLabel.setText(mapa.getHistoria());
     }
 
-        public void contarHistoria2(){
-            String historia= "<html>";
-            for(int i=0;i<100; i++){
-                historia=historia+"Te cuento esta historia por"+i+"vez."+"<br>";
-            }
-            historia=historia+"<html>";
-            historiaLabel.setText(historia);
-        }
 
 
 }
