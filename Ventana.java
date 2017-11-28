@@ -395,7 +395,7 @@ public class Ventana extends JFrame{
         backgroundInfierno = new ImageIcon("images/background/defaultAlone.jpg");
         backgroundLabel.setIcon(backgroundInfierno);
 
-        humano = new Humano(0, "oliver", 20, 5);
+        humano = new Humano(0, "oliver", 30, 5);
         mochila = new Mochila();
         ayudante = new Ayudante();
 
@@ -461,10 +461,7 @@ public class Ventana extends JFrame{
 
                     historiaLabel.setText(mapa.getHistoria());
 
-                    /*System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
-                    System.out.println(preguntas.getPreguntas()[x].getA());
-                    System.out.println(preguntas.getPreguntas()[x].getB());
-                    System.out.println(preguntas.getPreguntas()[x].getC());*/
+                    
 
 
                 break;
@@ -778,8 +775,48 @@ public class Ventana extends JFrame{
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 
-            case 23:
+            case 15:
                 backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 16:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 17:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 18:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 19:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 20:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 21:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 22:
+               backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+             case 23:
+               backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 
@@ -791,6 +828,7 @@ public class Ventana extends JFrame{
             case 25:
                 backgroundInfierno = new ImageIcon("images/backgorund/cielo.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
+            break;
 
             default:
                 backgroundInfierno = new ImageIcon("images/background/defaultAlone.jpg");
@@ -813,7 +851,7 @@ public class Ventana extends JFrame{
 
 
 
-//GUARDAR, CAMBIAR PREGUNTAS, AGREGAR FANTASMAS Y OTRAS IMAGENES
+//GUARDAR, AGREGAR FANTASMAS Y OTRAS IMAGENES
 
 
 //VOLVER INTENTAR, EXCEPCIONES, RESIZE IMAGEN ACCION, CLASES ABSTRACTAS
