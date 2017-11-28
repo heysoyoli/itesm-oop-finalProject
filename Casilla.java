@@ -9,8 +9,9 @@ public class Casilla{
 //  protected int numero;
 
 
-public Casilla(String historia){
+public Casilla(String historia, int tipoContenido){
   this.historia = historia;
+  this.tipoContenido = tipoContenido;
 }
 
 public Casilla(Enemigo enemigo, int tipoContenido){

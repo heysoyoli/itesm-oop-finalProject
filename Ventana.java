@@ -106,7 +106,7 @@ public class Ventana extends JFrame{
         cPrincipal.gridx= 1;
         cPrincipal.gridy=0;
         panelAccion= new PanelAccion();
-        panelAccion.setLayout(new GridLayout(1,1));
+        //panelAccion.setLayout(new GridLayout(1,1));
         TitledBorder titleAccion = BorderFactory.createTitledBorder("Mapa");
         panelAccion.setBorder(titleAccion);
         panelPrincipal.add(panelAccion, cPrincipal);
@@ -284,7 +284,7 @@ public class Ventana extends JFrame{
         panelRespuestas.add(cambiarHistoria);
 
         //IMAGEN DE MOCHILA
-        imagenMochila = new JLabel(new ImageIcon("images/diamante.png"));
+        imagenMochila = new JLabel(new ImageIcon("images/objects/mochila.png"));
         panelImagenMochila.add(imagenMochila);
 
        
@@ -310,7 +310,7 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ITEMS
-        imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
+        imagenItemLabel = new JLabel( new ImageIcon("images/objects/pocima.png"));
         panelImagenItem.add(imagenItemLabel);
 
 
@@ -336,7 +336,7 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ARMAS
-        imagenArmaLabel = new JLabel(new ImageIcon("images/espada.png"));
+        imagenArmaLabel = new JLabel(new ImageIcon("images/objects/espada.png"));
         panelImagenArma.add(imagenArmaLabel);
 
         //DISPLAY DE STATS DEL JUGADOR
@@ -392,7 +392,7 @@ public class Ventana extends JFrame{
         preguntas = new PoolPreguntas();
         preguntas.crearPreguntas();
 
-        backgroundInfierno = new ImageIcon("images/infierno-back-heroe.jpg");
+        backgroundInfierno = new ImageIcon("images/background/defaultAlone.jpg");
         backgroundLabel.setIcon(backgroundInfierno);
 
         humano = new Humano(0, "oliver", 20, 5);
@@ -413,13 +413,6 @@ public class Ventana extends JFrame{
             //DISPLAYS BACKGROUND
             displayBackground(humano.getPos());
 
-
-            //TELLS STORY FOR THAT CASILLA OR CONTET
-			//historiaLabel.setText("(" + humano.getPos() + ")" + "---- " + mapa.getCasillas()[humano.getPos()].getHistoria());
-
-			//historiaLabel.setText(ayudante.contarHistoria(humano.getPos()));
-
-            //ayudante.explicarContenido(mapa.getCasillas()[humano.getPos()]);
             contarHistoria();
 
 
@@ -450,14 +443,30 @@ public class Ventana extends JFrame{
                     guardarSlot1.setEnabled(true);
                     guardarSlot2.setEnabled(true);
                     usarItem.setEnabled(true);
+                    guardarItem.setEnabled(false);
+
+                    respuestaA.setEnabled(true);
+                    respuestaB.setEnabled(true);
+                    respuestaC.setEnabled(true);
+                    atacarRespuesta.setEnabled(true);
+
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
 
 
-                    /*x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
 
-                    System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
+                    x = ThreadLocalRandom.current().nextInt(0, 11 + 1);
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + preguntas.getPreguntas()[x].getPregunta() + "<br/>" + preguntas.getPreguntas()[x].getA() + "<br/>" + preguntas.getPreguntas()[x].getB() + "<br/>" + preguntas.getPreguntas()[x].getC() + "<br/>" );
+
+                    historiaLabel.setText(mapa.getHistoria());
+
+                    /*System.out.println(preguntas.getPreguntas()[x].getPregunta() + "\n");
                     System.out.println(preguntas.getPreguntas()[x].getA());
                     System.out.println(preguntas.getPreguntas()[x].getB());
                     System.out.println(preguntas.getPreguntas()[x].getC());*/
+
+
                 break;
 
                 case 2:
@@ -472,6 +481,10 @@ public class Ventana extends JFrame{
                 default:
 
                     cambiarHistoria.setEnabled(true);
+                    respuestaA.setEnabled(false);
+                    respuestaB.setEnabled(false);
+                    respuestaC.setEnabled(false);
+                    atacarRespuesta.setEnabled(false);
 
                     guardarSlot1.setEnabled(false);
                     guardarSlot2.setEnabled(false);
@@ -497,32 +510,41 @@ public class Ventana extends JFrame{
         public void actionPerformed(ActionEvent event){
             if(guardarSlot1.isSelected()){
                 if(mochila.getItems()[0] != null){
-                    System.out.println("Usaste " + mochila.getItems()[0].getNombre() + " de tu mochila");
+                   
                     humano.setVida(humano.getVida() + mochila.getItems()[0].getUpPuntosVida());
 
                     String hist = mapa.getHistoria();
-                    mapa.setHistoria("Tu vida ahora es de" + humano.getVida());
+                    mapa.setHistoria(hist +  "<br/>" + "Usaste un item para curarte. Tu vida ahora es de" + humano.getVida());
                     historiaLabel.setText(mapa.getHistoria());
+
+                    guardarSlot1.setText("Vacio");
 
                     statVida.setText("Tu vida es de: " + humano.getVida());
                     mochila.getItems()[0] = null;
                 }else{
-                    System.out.println("Este slot esta vacio");
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "No hay nada aqui." + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
                 }
             }else if(guardarSlot2.isSelected()){
                 if(mochila.getItems()[1] != null){
-                    System.out.println("Usaste " + mochila.getItems()[1].getNombre() + " de tu mochila");
+                    
 
                     humano.setVida(humano.getVida() + mochila.getItems()[1].getUpPuntosVida());
 
                     String hist = mapa.getHistoria();
-                    mapa.setHistoria(hist +  "<br/>" + hist +  "<br/>" + "Tu vida ahora es de" + humano.getVida());
+                    mapa.setHistoria(hist +  "<br/>" + "Usaste un item para curarte. Tu vida ahora es de" + humano.getVida());
                     historiaLabel.setText(mapa.getHistoria());
 
                     statVida.setText("Tu vida es de: " + humano.getVida());
+
+                    guardarSlot2.setText("Vacio");
+
                     mochila.getItems()[1] = null;
                 }else{
-                    historiaLabel.setText("Este slot esta vacio");
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "No hay nada aqui." + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
                 }
             }
         }
@@ -532,19 +554,33 @@ public class Ventana extends JFrame{
         public void actionPerformed(ActionEvent event){
 
             if(guardarSlot1.isSelected()){
-                mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(),0);
+
+
+                mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 0);
+
+                guardarSlot1.setText(mapa.getCasillas()[humano.getPos()].getItem().getNombre());
+                guardarSlot1.setEnabled(false);
+                guardarSlot2.setEnabled(false);
                 guardarItem.setEnabled(false);
+                usarItem.setEnabled(false);
+                cambiarHistoria.setEnabled(true);
 
                 String hist = mapa.getHistoria();
-                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila." + "<br/>");
                 historiaLabel.setText(mapa.getHistoria());
 
             }else if(guardarSlot2.isSelected()){
                 mochila.guardarItem(mapa.getCasillas()[humano.getPos()].getItem(), 1);
+
+                guardarSlot2.setText(mapa.getCasillas()[humano.getPos()].getItem().getNombre());
+                guardarSlot1.setEnabled(false);
+                guardarSlot2.setEnabled(false);
                 guardarItem.setEnabled(false);
+                usarItem.setEnabled(false);
+                cambiarHistoria.setEnabled(true);
 
                 String hist = mapa.getHistoria();
-                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila");
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getItem().getNombre() + " en tu mochila." + "<br/>");
                 historiaLabel.setText(mapa.getHistoria());
             }
         }
@@ -554,17 +590,33 @@ public class Ventana extends JFrame{
     //METODOS PARA GUARDAR Y USAR ARMAS
     public class ListenerGuardarArma implements ActionListener{
         public void actionPerformed(ActionEvent event){
-
             if(guardarSlot3.isSelected()){
+
                 mochila.guardarArma(mapa.getCasillas()[humano.getPos()].getArma(), 0);
+
+                guardarSlot3.setText(mapa.getCasillas()[humano.getPos()].getArma().getNombre());
+                guardarSlot3.setEnabled(false);
+                guardarSlot4.setEnabled(false);
                 guardarArma.setEnabled(false);
                 cambiarHistoria.setEnabled(true);
-                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 1");
+
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila." + "<br/>");
+                historiaLabel.setText(mapa.getHistoria());
+               
+
             }else if(guardarSlot4.isSelected()){
                 mochila.guardarArma(mapa.getCasillas()[humano.getPos()].getArma(), 1);
+
+                guardarSlot4.setText(mapa.getCasillas()[humano.getPos()].getArma().getNombre());
+                guardarSlot3.setEnabled(false);
+                guardarSlot4.setEnabled(false);
                 guardarArma.setEnabled(false);
                 cambiarHistoria.setEnabled(true);
-                historiaLabel.setText("Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila slot 2");
+
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "Guardaste un " + mapa.getCasillas()[humano.getPos()].getArma().getNombre() + " en tu mochila." + "<br/>");
+                historiaLabel.setText(mapa.getHistoria());
             }
         }
     }
@@ -577,45 +629,91 @@ public class Ventana extends JFrame{
             int ataqueHumano = humano.getPuntosAtaque();
             int ataqueEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getPuntosAtaque();
 
-            if(guardarSlot1.isSelected()){
+            
+
+            if(guardarSlot3.isSelected()){
+
                 if(mochila.getArmas()[0] != null){
+
                     mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[0].getGainPuntosAtaque()));
-                    vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
-                    historiaLabel.setText("La vida del enemigo es de: " + vidaEnemigo);
-                    statVidaEnemigo.setText("Vida Enemigo: "+ vidaEnemigo);
-                }else{
-                    System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "La vida del enemigo es de: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida() + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
                 }
-            }else if(guardarSlot2.isSelected()){
+            }else if(guardarSlot4.isSelected()){
+
                 if(mochila.getArmas()[1] != null){
+
                     mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - (ataqueHumano + mochila.getArmas()[1].getGainPuntosAtaque()));
-                    vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
-                     historiaLabel.setText("La vida del enemigo es de: " + vidaEnemigo);
-                    statVidaEnemigo.setText("Vida Enemigo: "+ vidaEnemigo);
-                }else{
-                    System.out.println("Este slot esta vacio, usa otra arama o ataca con habilidad o solo");
+                    
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "La vida del enemigo es de: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida() + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
                 }
-            }
+            } else{
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - ataqueHumano);
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "La vida del enemigo es de: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida() + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
+                }
+        
+
+            contraAtacar(mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
 
 
-            if(vidaEnemigo > 0){
-                historiaLabel.setText("El enemigo sigue vivo, te atacara ahora");
+        }
+    }
+
+
+    public void contraAtacar(int vidaEnemigo){
+
+
+            int vidaHumano = humano.getVida();
+            int ataqueEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getPuntosAtaque();
+
+        if(vidaEnemigo > 0){
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "El enemigo sigue vivo, te atacara ahora" + "<br/>"+ "Tu vida ahora es de: " + (vidaHumano - ataqueEnemigo));
+                historiaLabel.setText(mapa.getHistoria());
+
                 humano.setVida(vidaHumano - ataqueEnemigo);
-                historiaLabel.setText("Tu vida ahora es de:" + humano.getVida());
                 statVida.setText("Tu vida es de " + humano.getVida());
+
+
             }else if(vidaEnemigo <= 0){
-                historiaLabel.setText("Derrotaste el enemigo! Puedes continuar con tu viaje");
+
+                String hist = mapa.getHistoria();
+                mapa.setHistoria(hist +  "<br/>" + "Derrotaste el enemigo! Puedes continuar con tu viaje" + "<br/>");
+                historiaLabel.setText(mapa.getHistoria());
+
                 cambiarHistoria.setEnabled(true);
+                guardarSlot3.setEnabled(false);
+                guardarSlot4.setEnabled(false);
                 atacar.setEnabled(false);
+                respuestaA.setEnabled(false);
+                respuestaB.setEnabled(false);
+                respuestaC.setEnabled(false);
+                atacarRespuesta.setEnabled(false);
+
+                 statVidaEnemigo.setText("Vida Enemigo");
             }
 
             if(humano.getVida() <= 0 ){
                 historiaLabel.setText("GAME OVER");
-                //System.exit(0);
-
             }
-        }
+
     }
+
+            
+
+            
 
 
     //METODO PARA GUARDAR JUEGO
@@ -630,36 +728,72 @@ public class Ventana extends JFrame{
         public void actionPerformed(ActionEvent event){
 
             int vidaEnemigo = mapa.getCasillas()[humano.getPos()].getEnemigo().getVida();
+            //System.out.println(preguntas.getPreguntas()[x].getPregunta());
+            //System.out.println(preguntas.getPreguntas()[x].getCorrecta());
 
             if(respuestaA.isSelected()){
-                if(preguntas.getPreguntas()[x].getA() == preguntas.getPreguntas()[x].getCorrecta()){
+                if("a" == preguntas.getPreguntas()[x].getCorrecta()){
                     mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - 10 );
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "Correcto! Le restaste 10 puntos de vida al Fantasma" + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
+                    atacarRespuesta.setEnabled(false);
                 }
+            }else if (respuestaB.isSelected()){
+                if("b" == preguntas.getPreguntas()[x].getCorrecta()){
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - 10 );
+
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "Correcto! Le restaste 10 puntos de vida al Fantasma" + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
+                    atacarRespuesta.setEnabled(false);
+                }
+            }else if(respuestaC.isSelected()){
+                if("c"== preguntas.getPreguntas()[x].getCorrecta()){
+                    mapa.getCasillas()[humano.getPos()].getEnemigo().setVida(vidaEnemigo - 10 );
+                    String hist = mapa.getHistoria();
+                    mapa.setHistoria(hist +  "<br/>" + "Correcto! Le restaste 10 puntos de vida al Fantasma" + "<br/>");
+                    historiaLabel.setText(mapa.getHistoria());
+                    statVidaEnemigo.setText("Vida Enemigo: " + mapa.getCasillas()[humano.getPos()].getEnemigo().getVida());
+                    atacarRespuesta.setEnabled(false);
+                }
+            }else{
+                        String hist = mapa.getHistoria();
+                        mapa.setHistoria(hist +  "<br/>" + "La opcion no era correcta" + "<br/>");
+                        historiaLabel.setText(mapa.getHistoria());
+                    }
             }
         }
-    }
+   
 
 
     //HANDLES BACKGROUND IMAGES
     public void displayBackground(int posicion){
         switch(posicion){
-            case 2:
-                backgroundInfierno = new ImageIcon("images/carta.png");
+            case 1:
+                backgroundInfierno = new ImageIcon("images/background/carta.png");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 23:
+                backgroundInfierno = new ImageIcon("images/background/castillo.jpg");
+                backgroundLabel.setIcon(backgroundInfierno);
+            break;
+
+            case 24:
+                backgroundInfierno = new ImageIcon("images/backgorund/final.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
 
             case 25:
-                backgroundInfierno = new ImageIcon("images/final.jpg");
+                backgroundInfierno = new ImageIcon("images/backgorund/cielo.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
-            break;
-
-            case 26:
-                backgroundInfierno = new ImageIcon("images/cielo.png");
-                backgroundLabel.setIcon(backgroundInfierno);
-            break;
 
             default:
-                backgroundInfierno = new ImageIcon("images/infierno-back-heroe.jpg");
+                backgroundInfierno = new ImageIcon("images/background/defaultAlone.jpg");
                 backgroundLabel.setIcon(backgroundInfierno);
             break;
         }
@@ -678,8 +812,14 @@ public class Ventana extends JFrame{
     }
 
 
-//GUARDAR, RESIZE IMAGEN ACCION, AGREGAR FANTASMAS, CAMBIAR FONDO A B, PONER IMAGEN CASTILLO Y PNG HOMBRE/MUJER, INSTRUCCION RECOGER ITEM
-//DISABLE BUTTONS, AGREGAR PREGUNTA DIFICIL, VOLVER A INTENTAR, CAMBIAR PREGUNTAS, FINISH CONCATENATE TEXT, EXCEPCIONES.
+
+//GUARDAR, CAMBIAR PREGUNTAS, AGREGAR FANTASMAS Y OTRAS IMAGENES
+
+
+//VOLVER INTENTAR, EXCEPCIONES, RESIZE IMAGEN ACCION, CLASES ABSTRACTAS
+
+
+// MAS PREGUNTAS
 
 
 

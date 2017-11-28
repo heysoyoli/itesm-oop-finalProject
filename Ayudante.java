@@ -16,7 +16,7 @@ public class Ayudante{
 				historia = "Has encontrado esto en tu mochila... La respuesta cuando llegues al lugar en donde todo este despejado\n";
 				break;
 			case 2:
-				historia = "Encontraste una pocion. Esto te ayudara a aguantar las llamas del infierno\n";
+				historia = "Encontraste una pocion. Esto te ayudara a aguantar las llamas del infierno. A partir de ahora puedes recoger pociones y ponerlas en tu mochila. Si metes una en donde ya hay otra pocion, te quedaras con la mas nueva. \n";
 				break;
 			case 3:
 				historia = "Toma esto, te servira mas tarde, guardalo en tu mochila. Solo puedes tener hasta 4 objetos dentro de ella. El arma que has encontrado te ayudara a enfrentarte a los espiritus. danio que puedes hacer con esta arma es de 5 puntos por ataque. No podras usar tu arma mas de dos veces, usala sabiamente. Confia en tu conocimiento. Te enfrentaras a retos que reten tu intelecto.\n";
@@ -53,7 +53,7 @@ public class Ayudante{
 			return encontrasteItem;
 		}
 
-		else return " ";
+		else{return "-";}
 	}
 
 
