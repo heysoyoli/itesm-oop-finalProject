@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.border.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-////FALTA ATACAR CON ARMA, ATACAR CON HABILIDAD, MOSTAR IMAGENES, ATACAR SOLO
 
 public class Ventana extends JFrame{
 
@@ -127,6 +126,7 @@ public class Ventana extends JFrame{
 
         //RESPUESTAS
         panelRespuestas= new PanelRespuestas();
+        panelRespuestas.setLayout(new GridLayout(5, 1));
         TitledBorder titleRespuestas = BorderFactory.createTitledBorder("Respuestas");
         panelRespuestas.setBorder(titleRespuestas);
 
@@ -140,6 +140,7 @@ public class Ventana extends JFrame{
         //ITEMS
         panelItems= new PanelItems();
         //panelItems.add(new JLabel ("Items"));
+        panelItems.setLayout(new GridLayout(4, 1));
         TitledBorder titleItems = BorderFactory.createTitledBorder("Tus items");
         panelItems.setBorder(titleItems);
 
@@ -151,9 +152,10 @@ public class Ventana extends JFrame{
         //ARMAS
         panelArmas= new PanelArmas();
         //panelArmas.add(new JLabel ("Armas"));
+        panelArmas.setLayout(new GridLayout(4, 1));
         TitledBorder titleArmas = BorderFactory.createTitledBorder("Tus armas");
         panelArmas.setBorder(titleArmas);
-        //
+        
         panelImagenArma= new PanelImagenArma();
         TitledBorder titleImagenArma = BorderFactory.createTitledBorder("Arma seleccionada");
         panelImagenArma.setBorder(titleImagenArma);
@@ -162,6 +164,7 @@ public class Ventana extends JFrame{
         //STATS
         panelStats= new PanelStats();
         //panelStats.add(new JLabel ("Stats"));
+        panelStats.setLayout(new GridLayout(5, 1));
         TitledBorder titleStats = BorderFactory.createTitledBorder("Stats");
         panelStats.setBorder(titleStats);
         
@@ -296,8 +299,8 @@ public class Ventana extends JFrame{
 
 
         //IMAGEN DE ITEMS
-        imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
-        panelImagenItem.add(imagenItemLabel);
+        //imagenItemLabel = new JLabel( new ImageIcon("images/pocima.png"));
+        //panelImagenItem.add(imagenItemLabel);
 
 
         //GRUPO PARA GUARDAR ARMAS
@@ -331,7 +334,7 @@ public class Ventana extends JFrame{
         panelStats.add(statVida);
         panelStats.add(statPos);
         panelStats.add(statAtaque);
-        //panelStats.add(statVidaEnemigo);
+        panelStats.add(statVidaEnemigo);
 
 
         guardarJuego = new JButton("Guardar Juego");
@@ -646,6 +649,7 @@ public class Ventana extends JFrame{
     
 
 
+    //HANDLES THE SOTRY FROM AYUDANTE
     public void contarHistoria(){
                 
             String hist = mapa.getHistoria();
